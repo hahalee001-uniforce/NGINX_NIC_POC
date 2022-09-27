@@ -1,0 +1,4 @@
+install grpcurl tool
+curl -sSL "https://github.com/fullstorydev/grpcurl/releases/download/v1.8.7/grpcurl_1.8.7_linux_x86_64.tar.gz" | sudo tar -xz -C /usr/local/bin
+
+grpcurl -d '{"name": "world"}' -insecure grpc.example.com:443 helloworld.Greeter/SayHello
