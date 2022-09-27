@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: health-cafe-ingress
+  annotations:
+     kubernetes.io/ingress.class: "nginx"
+     nginx.com/health-checks: "true"
+spec:
+  rules:
+  - host: "cafe.example.com"
+    http:
+      paths:
+      - path: /health-tea
+        pathType: Prefix
+        backend:
+          service:
+            name: health-tea-svc
+            port:
+              number: 80
+      - path: /health-coffee
+        pathType: Prefix
+        backend:
+          service:
+            name: health-coffee-svc
+            port:
+              number: 80
+      - path: /health-beer
+        pathType: Prefix
+        backend:
+          service:
+            name: health-beer-svc
+            port:
+              number: 80

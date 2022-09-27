@@ -1,0 +1,40 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: routing-cafe
+spec:
+  host: cafe.example.com
+  tls:
+    secret: server-tls
+  upstreams:
+  - name: routing-tea-post
+    service: routing-tea-post-svc
+    port: 80
+  - name: routing-tea
+    service: routing-tea-svc
+    port: 80
+  - name: routing-coffee-v1
+    service: routing-coffee-v1-svc
+    port: 80
+  - name: routing-coffee-v2 
+    service: routing-coffee-v2-svc
+    port: 80
+  routes:
+  - path: /routing-tea
+    matches:
+    - conditions:
+      - variable: $request_method
+        value: POST
+      action:
+        pass: routing-tea-post
+    action:
+      pass: routing-tea
+  - path: /routing-coffee
+    matches:
+    - conditions:
+      - cookie: version
+        value: v2
+      action:
+        pass: routing-coffee-v2
+    action:
+      pass: routing-coffee-v1

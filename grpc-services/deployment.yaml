@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: go-grpc-greeter-server
+  name: go-grpc-greeter-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-grpc-greeter-server
+  template:
+    metadata:
+      labels:
+        app: go-grpc-greeter-server
+    spec:
+      containers:
+      - image: reg.lab.uniforce.com.tw/nginx-plus-ingress/greeter-server   # Edit this for your reponame
+        name: go-grpc-greeter-server
+        ports:
+        - containerPort: 50051

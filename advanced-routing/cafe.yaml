@@ -1,0 +1,131 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: routing-coffee-v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: routing-coffee-v1
+  template:
+    metadata:
+      labels:
+        app: routing-coffee-v1
+    spec:
+      containers:
+      - name: routing-coffee-v1
+        image: nginxdemos/nginx-hello:plain-text
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: routing-coffee-v1-svc
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: routing-coffee-v1
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: routing-coffee-v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: routing-coffee-v2
+  template:
+    metadata:
+      labels:
+        app: routing-coffee-v2
+    spec:
+      containers:
+      - name: routing-coffee-v2
+        image: nginxdemos/nginx-hello:plain-text
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: routing-coffee-v2-svc
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: routing-coffee-v2
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: routing-tea-post
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: routing-tea-post 
+  template:
+    metadata:
+      labels:
+        app: routing-tea-post 
+    spec:
+      containers:
+      - name: routing-tea-post 
+        image: nginxdemos/nginx-hello:plain-text
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: routing-tea-post-svc
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: routing-tea-post
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: routing-tea
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: routing-tea 
+  template:
+    metadata:
+      labels:
+        app: routing-tea 
+    spec:
+      containers:
+      - name: routing-tea 
+        image: nginxdemos/nginx-hello:plain-text
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: routing-tea-svc
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: routing-tea

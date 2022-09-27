@@ -1,0 +1,4 @@
+document.cookie = "version=v2"
+curl -k --cookie "version=v2" https://cafe.example.com/routing-coffee
+
+curl -k -X POST https://cafe.example.com/routing-tea

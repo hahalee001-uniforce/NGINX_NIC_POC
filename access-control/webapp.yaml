@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: access-webapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: access-webapp
+  template:
+    metadata:
+      labels:
+        app: access-webapp
+    spec:
+      containers:
+      - name: access-webapp
+        image: nginxdemos/nginx-hello:plain-text
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: access-webapp-svc
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: access-webapp

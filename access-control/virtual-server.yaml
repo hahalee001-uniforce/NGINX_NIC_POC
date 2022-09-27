@@ -1,0 +1,18 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: access-webapp 
+spec:
+  host: webapp.example.com
+  tls:
+    secret: server-tls
+  policies:
+  - name: webapp-policy
+  upstreams:
+  - name: access-webapp 
+    service: access-webapp-svc
+    port: 80
+  routes:
+  - path: /
+    action:
+      pass: access-webapp

@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cafe-ingress-with-session-persistence
+  annotations:
+    nginx.com/sticky-cookie-services: "serviceName=persistence-tea-svc srv_id expires=2h path=/persistence-tea"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - cafe.example.com
+    secretName: server-tls
+  rules:
+  - host: cafe.example.com
+    http:
+      paths:
+      - path: /persistence-tea
+        pathType: Prefix
+        backend:
+          service:
+            name: persistence-tea-svc
+            port:
+              number: 80
+      - path: /persistence-coffee
+        pathType: Prefix
+        backend:
+          service:
+            name: persistence-coffee-svc
+            port:
+              number: 80

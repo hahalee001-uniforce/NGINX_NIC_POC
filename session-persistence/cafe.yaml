@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: persistence-coffee
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: persistence-coffee
+  template:
+    metadata:
+      labels:
+        app: persistence-coffee
+    spec:
+      containers:
+      - name: persistence-coffee
+        image: nginxdemos/nginx-hello:plain-text
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: persistence-coffee-svc
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: persistence-coffee
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: persistence-tea
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: persistence-tea 
+  template:
+    metadata:
+      labels:
+        app: persistence-tea 
+    spec:
+      containers:
+      - name: tea 
+        image: nginxdemos/nginx-hello:plain-text
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: persistence-tea-svc
+  labels:
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: persistence-tea

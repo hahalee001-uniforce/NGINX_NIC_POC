@@ -1,0 +1,24 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: traffic-cafe
+spec:
+  host: cafe.example.com
+  tls:
+    secret: server-tls
+  upstreams:
+  - name: traffic-coffee-v1
+    service: traffic-coffee-v1-svc
+    port: 80
+  - name: traffic-coffee-v2 
+    service: traffic-coffee-v2-svc
+    port: 80
+  routes:
+  - path: /traffic-coffee
+    splits:
+    - weight: 90
+      action:
+        pass: traffic-coffee-v1
+    - weight: 10
+      action:
+        pass: traffic-coffee-v2
